@@ -1,4 +1,5 @@
 
+
 public class Mapping {
 	private int x;
 	private int y;

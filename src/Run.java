@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,20 +12,30 @@ public class Run {
 		System.out.println("================================================");
 		
 		System.out.println("\n1-10x10 Image");
+		System.out.println("2-180x180 Image");
+		System.out.println("3-520x520 Image");
+		
 		Scanner s = new Scanner(System.in);
 		
 		String image = s.nextLine();
 		
+		Process proc = null;
 		switch (image) {
 		case "1":
-			Process proc = new Process(ImageIO.read(new File(Process.IMAGE10X10)));
-			System.out.println("Image loaded: W:" +proc.getImage().getWidth() + " H:" + proc.getImage().getHeight());
-			proc.startProcessing();
+			proc = new Process(ImageIO.read(new File(Process.IMAGE10X10)));
 			break;
-			
+		case "2":
+			proc = new Process(ImageIO.read(new File(Process.IMAGE180X180)));
+			break;	
+		case "3":
+			proc = new Process(ImageIO.read(new File(Process.IMAGE520X520)));
+			break;	
 		default:
 			System.err.println("Não Disponível.");
 			break;
 		}
+		
+		System.out.println("Image loaded: W:" + proc.getImage().getWidth() + " H:" + proc.getImage().getHeight());
+		proc.startProcessing();
 	}	
 }
