@@ -1,5 +1,9 @@
 
-
+/**
+ * @author Matheus Buarque
+ * @version 1.0
+ * @since 2017-07-25
+ */
 public class Shape {
 	
 	public static final byte UNKNOWNSHAPE = 0;
@@ -15,6 +19,22 @@ public class Shape {
 	public Shape() {
 		this.width = 0;
 		this.height = 0;
+	}
+	
+	public static String getName(byte type){
+		switch (type) {
+		case 0:
+			return "Unknown";	
+		case 1:
+			return "Square";
+		case 2:
+			return "Rectangle";
+		case 3:
+			return "Triangle";
+		case 4:
+			return "Circle";
+		}
+		return "";
 	}
 	
 	public int getWidth() {

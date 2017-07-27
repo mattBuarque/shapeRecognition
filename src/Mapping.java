@@ -1,5 +1,9 @@
 
-
+/**
+ * @author Matheus Buarque
+ * @version 1.0
+ * @since 2017-07-25
+ */
 public class Mapping {
 	private int x;
 	private int y;

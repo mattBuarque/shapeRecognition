@@ -2,11 +2,18 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+/**
+ * @author Matheus Buarque
+ * @version 1.0
+ * @since 2017-07-25
+ */
 public class Process {
 	
 	public static String IMAGE10X10 = "Quadrado10x10.jpg";
 	public static String IMAGE180X180 = "Quadrado180x180.jpg";
 	public static String IMAGE520X520 = "Quadrado520x520.jpg";
+	public static String IMAGEDIAGONAL490X490 = "QuadradoDiagonal490x490.jpg";
+	public static String UNKNOWNSHAPE = "UnknownShape.jpg";
 	
 	private BufferedImage image;
 	private LinkedHashMap<Integer, Mapping> map;
@@ -19,6 +26,8 @@ public class Process {
 	}
 	
 	protected void startProcessing(){
+//		ImageLog.writeInLog("Starting process [" + getImage().getWidth() + "x" + getImage().getHeight() + "]");
+		setImage(Threshold.getBinaryImage(getImage(), 180));
 		int position = 0;
 		for (int x = 0; x < getImage().getWidth(); x++) {
 			for (int y = 0; y < getImage().getHeight(); y++) {
@@ -35,8 +44,11 @@ public class Process {
 		System.out.println("Shape size (pixels): " + this.shape.getWidth() +"x"+ this.shape.getHeight());
 		if (shape.getType() == Shape.UNKNOWNSHAPE) {
 			System.out.println("\nANSWER: I did my job, but I'm like dumb baby, I only know some shapes.");
+			return;
 		}
-		System.out.println("\nANSWER: I did my job, ur shape is a " + getName(shape.getType()) + "!");
+		System.out.println("\nANSWER: I did my job, ur shape is a " + Shape.getName(shape.getType()) + "!");
+//		ImageLog.writeInLog("Process finished");
+//		ImageLog.writeInLog("=====================================================");
 	}
 	
 	private int getPixel(int x, int y){
@@ -68,6 +80,7 @@ public class Process {
 				return downPixel != -1;
 			}
 		}
+		
 		downPixel 		= getPixel(x + 1, y);
 		rightPixel 		= getPixel(x, y + 1);
 		downRightPixel 	= getPixel(x + 1, y + 1);
@@ -75,6 +88,7 @@ public class Process {
 			return true;
 		}
 		return false;
+		
 	}
 	
 	private void recognizeShape(){
@@ -89,7 +103,7 @@ public class Process {
 			}
 			oldx = getMap().get(index).getX();
 			oldy = getMap().get(index).getY();
-//			System.out.println(oldx + "|" + oldy + "|" + index);
+//			ImageLog.writeInLog(oldx + " | " + oldy + " | " + index);
 		}
 		if (this.shape.getWidth() == this.shape.getHeight()) {
 			shape.setType(Shape.SHAPESQUARE);
@@ -100,22 +114,6 @@ public class Process {
 	
 	private void checkRoundedPixels(int x, int y){
 		checkRoundedPixels(x, y, false);
-	}
-	
-	private String getName(byte type){
-		switch (type) {
-		case 0:
-			return "Unknown";	
-		case 1:
-			return "Square";
-		case 2:
-			return "Rectangle";
-		case 3:
-			return "Triangle";
-		case 4:
-			return "Circle";
-		}
-		return "";
 	}
 	
 	public BufferedImage getImage() {
